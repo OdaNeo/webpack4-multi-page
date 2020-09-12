@@ -13,7 +13,6 @@
 *.njsproj
 *.sln
 *.sw?
-*.sh
 
 *.log
 *.temp
