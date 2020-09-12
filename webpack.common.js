@@ -4,13 +4,25 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
+const glob = require('glob') // glob 动态生成entry与html模板
+const pagesName = glob.sync('src/pages/*') // [ 'src/pages/index', 'src/pages/page1', 'src/pages/page2' ]
+const entryFile = {}
+const htmlFile = []
+
+for (let i of pagesName) {
+  let _name = i.split('/').pop().toString()
+  entryFile[_name] = `./src/pages/${_name}/app.js`
+  htmlFile.push(
+    new HtmlWebpackPlugin({
+      filename: `${_name}.html`,
+      template: resolve(`src/pages/${_name}/index.html`),
+      chunks: [`${_name}`]
+    })
+  )
+}
+
 module.exports = {
-  entry: {
-    // 多入口
-    index: './src/pages/index/app.js',
-    page1: './src/pages/index/app.js',
-    page2: './src/pages/index/app.js'
-  },
+  entry: entryFile,
   resolve: {
     alias: {
       '@': resolve('src') // 配置别名
@@ -33,24 +45,8 @@ module.exports = {
       }
     ]
   },
-  plugins: [
-    new CleanWebpackPlugin(), // 清理dist目录
-    // 配置多页面html模板
-    new HtmlWebpackPlugin({
-      filename: 'index.html',
-      template: resolve('src/pages/index/index.html'),
-      chunks: ['index']
-    }),
-    new HtmlWebpackPlugin({
-      filename: 'page1.html',
-      template: resolve('src/pages/page1/index.html'),
-      chunks: ['page1']
-    }),
-    new HtmlWebpackPlugin({
-      filename: 'page2.html',
-      template: resolve('src/pages/page2/index.html'),
-      chunks: ['page2']
-    }),
+  plugins: htmlFile.concat([
+    new CleanWebpackPlugin(),
     new CopyWebpackPlugin({
       patterns: [
         {
@@ -59,5 +55,5 @@ module.exports = {
         }
       ]
     })
-  ]
+  ])
 }
