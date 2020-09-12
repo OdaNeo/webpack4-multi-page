@@ -74,7 +74,8 @@ module.exports = merge(common, {
             options: {
               limit: 8192,
               outputPath: 'img',
-              name: '[name].[hash:8].[ext]'
+              name: '[name].[hash:8].[ext]',
+              publicPath: '/'
             }
           }
         ]

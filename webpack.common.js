@@ -9,8 +9,8 @@ const pagesName = glob.sync('src/pages/*') // [ 'src/pages/index', 'src/pages/pa
 const entryFile = {}
 const htmlFile = []
 
-for (let i of pagesName) {
-  let _name = i.split('/').pop().toString()
+for (const i of pagesName) {
+  const _name = i.split('/').pop().toString()
   entryFile[_name] = `./src/pages/${_name}/app.js`
   htmlFile.push(
     new HtmlWebpackPlugin({
