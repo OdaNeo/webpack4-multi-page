@@ -81,7 +81,7 @@ module.exports = merge(common, {
         ]
       },
       {
-        enforce: 'pre', // 保证 babel 优先 eslint 执行
+        enforce: 'pre', // 保证 eslint 优先 babel 执行
         test: /\.js$/,
         exclude: /node_modules/,
         use: 'eslint-loader'

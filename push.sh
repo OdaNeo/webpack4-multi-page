@@ -4,7 +4,7 @@ set -e
 
 git add -A
 
-git commit -m 'publickpath'
+git commit -m 'devtool'
 
 git push git@github.com:Oda-T/webpack4-multi-page.git master:master
 
