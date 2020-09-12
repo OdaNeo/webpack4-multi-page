@@ -27,4 +27,4 @@ npm run dev
 npm run build
 ```
 
-## TODO:postcss, babel, polyfill, 拦截全局 img 标签自适应, 图片懒加载 import
+## TODO: postcss, babel, polyfill, 拦截全局 img 标签自适应, 图片懒加载 import
