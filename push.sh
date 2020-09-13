@@ -4,7 +4,7 @@ set -e
 
 git add -A
 
-git commit -m 'devtool'
+git commit -m 'gitignore'
 
 git push git@github.com:Oda-T/webpack4-multi-page.git master:master
 
