@@ -4,7 +4,7 @@ set -e
 
 git add -A
 
-git commit -m 'gitignore'
+git commit -m 'add stege'
 
 git push git@github.com:Oda-T/webpack4-multi-page.git master:master
 

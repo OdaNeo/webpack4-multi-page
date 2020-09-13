@@ -24,7 +24,10 @@ npm run dev
 
 ```bash
 # 构建生产环境
-npm run build
+npm run build:prod
+
+# 构建本地serve环境
+npm run build:stage
 ```
 
 ## TODO: 图片懒加载 import
