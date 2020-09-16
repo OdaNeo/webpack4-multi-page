@@ -2,7 +2,6 @@ const path = require('path')
 const resolve = dir => path.resolve(__dirname, dir)
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 const glob = require('glob') // glob 动态生成entry与html模板
 const pagesName = glob.sync('src/pages/*') // [ 'src/pages/index', 'src/pages/page1', 'src/pages/page2' ]
@@ -46,7 +45,6 @@ module.exports = {
     ]
   },
   plugins: htmlFile.concat([
-    new CleanWebpackPlugin(),
     new CopyWebpackPlugin({
       patterns: [
         {

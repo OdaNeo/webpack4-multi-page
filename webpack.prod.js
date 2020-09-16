@@ -2,6 +2,7 @@ const path = require('path')
 const resolve = dir => path.resolve(__dirname, dir)
 const { merge } = require('webpack-merge')
 const common = require('./webpack.common')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin') // runtime内联到html文件中，减少http请求
 const MiniCssExtractPlugin = require('mini-css-extract-plugin') // 从js中提取css
@@ -43,6 +44,7 @@ module.exports = merge(common, {
     }
   },
   plugins: [
+    new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
       filename: 'css/[name].[contenthash:8].css', // prod启用contenthash
       chunkFilename: 'css/[name].[contenthash:8].css'
