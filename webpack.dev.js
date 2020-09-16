@@ -41,6 +41,7 @@ module.exports = merge(common, {
             }
           },
           'css-loader',
+          'postcss-loader',
           'stylus-loader'
         ]
       },

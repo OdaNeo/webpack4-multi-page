@@ -1,6 +1,6 @@
 # webpack4-multi-page
 
-## webpack4.44, 原生 js, stylus，glob，js/css 分割压缩, babel, polyfill, eslint, prettier
+## webpack4.44, 原生 js, stylus, glob, px2rem, js/css 分割压缩, babel, polyfill, eslint, prettier
 
 ## DEV
 
