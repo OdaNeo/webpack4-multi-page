@@ -41,6 +41,11 @@ module.exports = {
         test: /\.(woff|woff2|eot|ttf|otf)$/,
         exclude: [/node_modules/, /dist/],
         use: ['file-loader']
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/,
+        exclude: /node_modules/,
+        use: ['file-loader']
       }
     ]
   },
