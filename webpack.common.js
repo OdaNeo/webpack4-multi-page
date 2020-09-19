@@ -34,6 +34,7 @@ module.exports = {
     rules: [
       {
         test: /\.html$/,
+        include: [resolve('src')],
         exclude: [/node_modules/, /dist/],
         use: ['html-loader']
       }

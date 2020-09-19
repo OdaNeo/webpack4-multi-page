@@ -84,7 +84,7 @@ module.exports = merge(common, {
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/,
-        exclude: [/node_modules/, /dist/],
+        include: [resolve('src/styles/font')],
         use: [
           {
             loader: 'file-loader',
@@ -99,12 +99,12 @@ module.exports = merge(common, {
       {
         enforce: 'pre', // 保证 eslint 优先 babel 执行
         test: /\.js$/,
-        exclude: /node_modules/,
+        exclude: [/node_modules/, /dist/],
         use: 'eslint-loader'
       },
       {
         test: /\.js$/,
-        exclude: /node_modules/,
+        exclude: [/node_modules/, /dist/],
         use: 'babel-loader'
       }
     ]

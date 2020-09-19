@@ -1,4 +1,5 @@
 const path = require('path')
+const resolve = dir => path.resolve(__dirname, dir)
 const { merge } = require('webpack-merge')
 const common = require('./webpack.common')
 const webpack = require('webpack')
@@ -60,7 +61,7 @@ module.exports = merge(common, {
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/,
-        exclude: [/node_modules/, /dist/],
+        include: [resolve('src/styles/font')],
         use: [
           {
             loader: 'file-loader',
@@ -72,7 +73,7 @@ module.exports = merge(common, {
       },
       {
         test: /\.js$/,
-        exclude: /node_modules/,
+        exclude: [/node_modules/, /dist/],
         use: 'eslint-loader'
       }
     ]
