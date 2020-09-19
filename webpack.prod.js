@@ -68,7 +68,7 @@ module.exports = merge(common, {
         ]
       },
       {
-        test: /\.(png|jpg|gif)$/i,
+        test: /\.(png|jpg|gif|svg)$/i,
         exclude: [/node_modules/, /dist/],
         use: [
           {
@@ -78,6 +78,20 @@ module.exports = merge(common, {
               outputPath: 'img',
               name: '[name].[hash:8].[ext]',
               publicPath: '/'
+            }
+          }
+        ]
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/,
+        exclude: [/node_modules/, /dist/],
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              outputPath: 'css/font',
+              name: '[name].[ext]',
+              publicPath: '/css/font'
             }
           }
         ]

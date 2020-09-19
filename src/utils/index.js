@@ -1,2 +1,3 @@
-import './render.js'
-import './title.js'
+import './render'
+import './title'
+import './rem'

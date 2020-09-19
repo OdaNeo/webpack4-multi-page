@@ -46,7 +46,7 @@ module.exports = merge(common, {
         ]
       },
       {
-        test: /\.(png|jpg|gif)$/i,
+        test: /\.(png|jpg|gif|svg)$/i,
         exclude: [/node_modules/, /dist/],
         use: [
           {
@@ -54,6 +54,18 @@ module.exports = merge(common, {
             options: {
               limit: 8192,
               name: '[path][name].[ext]' // [path]===/src/assets/img/
+            }
+          }
+        ]
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/,
+        exclude: [/node_modules/, /dist/],
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[path][name].[ext]'
             }
           }
         ]
