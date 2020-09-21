@@ -18,7 +18,19 @@ module.exports = merge(common, {
     publicPath: '/'
   },
   optimization: {
-    minimizer: [new TerserJSPlugin({}), new OptimizeCssAssetsPlugin({})],
+    minimizer: [
+      new TerserJSPlugin({
+        terserOptions: {
+          compress: {
+            drop_console: true // 移除console
+          },
+          output: {
+            comments: false // 移除js中的注释
+          }
+        }
+      }),
+      new OptimizeCssAssetsPlugin({})
+    ],
     runtimeChunk: true, // 防止app.js缓存失效
     splitChunks: {
       chunks: 'all', // 异步模块和入口模块
