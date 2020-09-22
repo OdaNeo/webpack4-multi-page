@@ -43,7 +43,19 @@ module.exports = merge(common, {
             }
           },
           'css-loader',
-          'postcss-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [
+                  require('postcss-px2rem')({
+                    remUnit: 50, // 50px = 1rem
+                    remPrecision: 2 // rem的小数点后位数
+                  })
+                ]
+              }
+            }
+          },
           'stylus-loader'
         ]
       },
