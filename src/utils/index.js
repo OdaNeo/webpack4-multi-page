@@ -1,3 +1,2 @@
-import './render'
-import './title'
+import './debug'
 import './rem'

@@ -13,9 +13,11 @@ for (const i of pagesName) {
   entryFile[_name] = `./src/pages/${_name}/app.js`
   htmlFile.push(
     new HtmlWebpackPlugin({
+      title: `${_name}`,
       filename: `${_name}.html`,
       template: resolve(`src/pages/${_name}/app.html`),
-      chunks: [`${_name}`]
+      chunks: [`${_name}`],
+      favicon: 'src/assets/favicon.ico'
     })
   )
 }
@@ -31,14 +33,7 @@ module.exports = {
     namedModules: true // 替代 NamedModulesPlugin
   },
   module: {
-    rules: [
-      {
-        test: /\.html$/,
-        include: [resolve('src')],
-        exclude: [/node_modules/, /dist/],
-        use: ['html-loader']
-      }
-    ]
+    rules: []
   },
   plugins: htmlFile.concat([
     new CopyWebpackPlugin({
