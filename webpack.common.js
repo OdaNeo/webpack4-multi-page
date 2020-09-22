@@ -14,7 +14,7 @@ for (const i of pagesName) {
   htmlFile.push(
     new HtmlWebpackPlugin({
       filename: `${_name}.html`,
-      template: resolve(`src/pages/${_name}/index.html`),
+      template: resolve(`src/pages/${_name}/app.html`),
       chunks: [`${_name}`]
     })
   )
