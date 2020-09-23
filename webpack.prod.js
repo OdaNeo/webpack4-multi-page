@@ -101,8 +101,7 @@ module.exports = merge(common, {
             options: {
               limit: 8192,
               outputPath: 'img',
-              name: '[name].[hash:8].[ext]',
-              publicPath: '/'
+              name: '[name].[hash:8].[ext]'
             }
           }
         ]
@@ -112,11 +111,11 @@ module.exports = merge(common, {
         include: [resolve('src/styles/font')],
         use: [
           {
-            loader: 'file-loader',
+            loader: 'url-loader',
             options: {
+              limit: 8192,
               outputPath: 'css/font',
-              name: '[name].[ext]',
-              publicPath: '/css/font'
+              name: '[name].[ext]'
             }
           }
         ]

@@ -19,7 +19,7 @@ module.exports = merge(common, {
   devtool: 'eval-cheap-module-source-map',
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
-    port: 7863,
+    port: 7864,
     open: true,
     hot: true
   },
@@ -77,8 +77,9 @@ module.exports = merge(common, {
         include: [resolve('src/styles/font')],
         use: [
           {
-            loader: 'file-loader',
+            loader: 'url-loader',
             options: {
+              limit: 8192,
               name: '[path][name].[ext]'
             }
           }
