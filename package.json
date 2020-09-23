@@ -22,7 +22,6 @@
     "css-loader": "^4.2.2",
     "eslint": "^7.8.1",
     "eslint-loader": "^4.0.2",
-    "file-loader": "^6.1.0",
     "glob": "^7.1.6",
     "html-webpack-plugin": "^4.4.1",
     "mdui": "^1.0.0",
