@@ -1,6 +1,12 @@
 # webpack4-multi-page
 
-## webpack4.44, 原生 js, stylus, glob, px2rem, js/css 分割压缩, babel, polyfill, eslint, prettier
+## webpack4.44, js, MDUI, stylus, sass, glob, px2rem, js/css 分割压缩, babel, polyfill, eslint, prettier
+
+## no Vue
+
+## no jQuery
+
+## no React
 
 ## DEV
 
@@ -31,3 +37,5 @@ npm run build:stage
 ```
 
 ## TODO: 图片懒加载 import
+
+## art 模板
