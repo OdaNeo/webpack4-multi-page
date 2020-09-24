@@ -1,14 +1,16 @@
 # webpack4-multi-page
 
-## webpack4.44, js, MDUI, stylus, sass, glob, px2rem, js/css 分割压缩, babel, polyfill, eslint, prettier
+## webpack4.44, js, art-template, MDUI, stylus, sass, glob, px2rem, js/css 分割压缩, babel, polyfill, eslint, prettier
 
 ## no Vue
 
-## no jQuery
-
 ## no React
 
-## 项目预览
+## use url-loader instead of file-loader
+
+## use art-template instead of html-loader
+
+## 项目预览 firebase
 
 https://webpack4-multi-page.web.app
 
@@ -34,12 +36,13 @@ npm run dev
 
 ```bash
 # 构建生产环境
-npm run build:prod
+npm run build
 
-# 构建本地serve环境
+# 构建GithubPage版本
+npm run build:gh
+
+# 构建本地serve环境，可自定义publicPath
 npm run build:stage
 ```
 
 ## TODO: 图片懒加载 import
-
-## art 模板
