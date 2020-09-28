@@ -1,7 +1,7 @@
 {
-  "name": "project",
-  "version": "1.0.0",
-  "description": "",
+  "name": "webpack4_multi_page",
+  "version": "1.0.1",
+  "description": "webpack, webpack4, multi_page",
   "private": true,
   "dependencies": {
     "core-js": "^3.6.5",
@@ -45,5 +45,5 @@
   },
   "keywords": [],
   "author": "Oda-T",
-  "license": "ISC"
+  "license": "MIT"
 }
