@@ -1,0 +1,50 @@
+* {
+  font-family: 'CascadiaCode', 'Microsoft YaHei' !important;
+}
+
+p {
+  margin: 0px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-weight: normal;
+  margin: 0;
+}
+
+em,
+i {
+  font-style: normal;
+}
+
+ol,
+ul,
+li {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  outline: none;
+  border: none;
+}
+
+input {
+  appearance: none;
+  outline: none;
+  margin: 0px;
+}
+
+img {
+  border: none;
+  vertical-align: top;
+}

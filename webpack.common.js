@@ -33,13 +33,7 @@ module.exports = {
     namedModules: true // 替代 NamedModulesPlugin
   },
   module: {
-    rules: [
-      {
-        test: /\.art$/,
-        loader: 'art-template-loader',
-        options: {}
-      }
-    ]
+    rules: []
   },
   plugins: htmlFile.concat([
     new CopyWebpackPlugin({

@@ -55,8 +55,7 @@ module.exports = merge(common, {
                 ]
               }
             }
-          },
-          'stylus-loader'
+          }
         ]
       },
       {

@@ -1,6 +1,6 @@
 # webpack4-multi-page
 
-## webpack4.44, js, stylus, glob, js/css 分割压缩, babel, polyfill, gzip
+## webpack4.44, js, glob, js/css 分割压缩, babel, polyfill, gzip
 
 ## no Vue
 
