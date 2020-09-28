@@ -13,7 +13,7 @@ module.exports = merge(common, {
   mode: 'production', // 防止控制台报错
   output: {
     // 多出口 prod环境下启用hash
-    filename: 'js/[name].[hash:8].bundle.js',
+    filename: 'js/[name].[contenthash:8].bundle.js',
     path: resolve('dist'),
     publicPath: '/'
   },
@@ -29,7 +29,11 @@ module.exports = merge(common, {
           }
         }
       }),
-      new OptimizeCssAssetsPlugin({})
+      new OptimizeCssAssetsPlugin({
+        cssProcessorPluginOptions: {
+          preset: ['default', { discardComments: { removeAll: true } }] // 开启cssnano
+        }
+      })
     ],
     runtimeChunk: true, // 防止app.js缓存失效
     splitChunks: {
