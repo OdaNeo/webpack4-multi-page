@@ -4,7 +4,7 @@ set -e
 
 git add -A
 
-git commit -m 'remove MDUI stylus'
+git commit -m '压缩png'
 
 git push git@github.com:Oda-T/webpack4-multi-page.git master:master
 

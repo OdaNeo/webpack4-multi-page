@@ -47,4 +47,6 @@ npm run build:gh
 npm run build:stage
 ```
 
+## NOTE: 压缩图片使用 image-webpack-loader, 需使用 cnpm 安装
+
 ## TODO: 图片懒加载 import
