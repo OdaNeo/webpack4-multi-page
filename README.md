@@ -1,10 +1,12 @@
 # webpack4-multi-page
 
-## webpack4.44, js, art-template, MDUI, stylus, sass, glob, px2rem, js/css 分割压缩, babel, polyfill, eslint, prettier
+## webpack4.44, js, stylus, glob, js/css 分割压缩, babel, polyfill, gzip
 
 ## no Vue
 
 ## no React
+
+## no jQuery
 
 ## use url-loader instead of file-loader
 

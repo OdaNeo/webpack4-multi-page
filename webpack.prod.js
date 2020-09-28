@@ -8,6 +8,7 @@ const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin') // 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin') // 从js中提取css
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin') // cssnano
 const TerserJSPlugin = require('terser-webpack-plugin') // 压缩js代码
+const CompressionPlugin = require('compression-webpack-plugin') // gzip
 
 module.exports = merge(common, {
   mode: 'production', // 防止控制台报错
@@ -67,6 +68,10 @@ module.exports = merge(common, {
     }),
     new ScriptExtHtmlWebpackPlugin({
       inline: /runtime~.*\.js$/ // 内联runtimeChunk到html
+    }),
+    new CompressionPlugin({
+      exclude: [/dist/],
+      algorithm: 'gzip'
     })
   ],
   module: {
@@ -97,7 +102,7 @@ module.exports = merge(common, {
         ]
       },
       {
-        test: /\.(png|jpg|gif|svg)$/i,
+        test: /\.(png|jpe?g|gif|svg)$/i,
         exclude: [/node_modules/, /dist/],
         use: [
           {
@@ -108,6 +113,27 @@ module.exports = merge(common, {
               name: '[name].[hash:8].[ext]'
             }
           }
+          // {
+          //   loader: 'image-webpack-loader',
+          //   options: {
+          //     mozjpeg: {
+          //       progressive: true
+          //     },
+          //     optipng: {
+          //       enabled: false
+          //     },
+          //     pngquant: {
+          //       quality: [0.65, 0.9],
+          //       speed: 4
+          //     },
+          //     gifsicle: {
+          //       interlaced: false
+          //     },
+          //     webp: {
+          //       quality: 75
+          //     }
+          //   }
+          // }
         ]
       },
       {

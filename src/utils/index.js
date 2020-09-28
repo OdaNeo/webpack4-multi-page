@@ -1,2 +1,1 @@
-import './debug'
 import './rem'
