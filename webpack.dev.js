@@ -59,7 +59,7 @@ module.exports = merge(common, {
         ]
       },
       {
-        test: /\.(png|jpg|gif|svg)$/i,
+        test: /\.(png|jpe?g|gif|svg)$/i,
         exclude: [/node_modules/, /dist/],
         use: [
           {
