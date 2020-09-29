@@ -47,6 +47,6 @@ npm run build:gh
 npm run build:stage
 ```
 
-## NOTE: 压缩图片使用 image-webpack-loader, 需使用 cnpm 安装
+## NOTE: 压缩图片使用 image-webpack-loader, 需要为 npm 设置代理 npm config set proxy=http://127.0.0.1:1080
 
 ## TODO: 图片懒加载 import
