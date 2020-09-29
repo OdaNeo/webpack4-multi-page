@@ -4,7 +4,7 @@ set -e
 
 git add -A
 
-git commit -m '删除cnpm'
+git commit -m 'reset css'
 
 git push git@github.com:Oda-T/webpack4-multi-page.git master:master
 
