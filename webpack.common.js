@@ -29,12 +29,7 @@ module.exports = {
       '@': resolve('src') // 配置别名
     }
   },
-  optimization: {
-    namedModules: true // 替代 NamedModulesPlugin
-  },
-  module: {
-    rules: []
-  },
+
   plugins: htmlFile.concat([
     new CopyWebpackPlugin({
       patterns: [
@@ -44,5 +39,9 @@ module.exports = {
         }
       ]
     })
-  ])
+  ]),
+
+  module: {
+    rules: []
+  }
 }

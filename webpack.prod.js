@@ -65,8 +65,8 @@ module.exports = merge(common, {
   plugins: [
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
-      filename: 'css/[name].[contenthash:8].css', // prod启用contenthash
-      chunkFilename: 'css/[name].[contenthash:8].css'
+      filename: 'css/[name].[contenthash:8].css' // prod启用contenthash
+      // chunkFilename: 'css/[name].[contenthash:8].css'
     }),
     new ScriptExtHtmlWebpackPlugin({
       inline: /runtime~.*\.js$/ // 内联runtimeChunk到html
@@ -111,7 +111,7 @@ module.exports = merge(common, {
             options: {
               limit: 8192,
               outputPath: 'img',
-              name: '[name].[hash:8].[ext]'
+              name: '[name].[contenthash:8].[ext]'
               // publicPath: '../img' // build:local 需要打开这个
             }
           },

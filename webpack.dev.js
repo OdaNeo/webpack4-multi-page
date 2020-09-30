@@ -1,5 +1,6 @@
 const path = require('path')
 const resolve = dir => path.resolve(__dirname, dir)
+
 const { merge } = require('webpack-merge')
 const common = require('./webpack.common')
 const webpack = require('webpack')
@@ -13,6 +14,7 @@ module.exports = merge(common, {
   output: {
     // 多出口 dev环境下不启用hash
     filename: 'js/[name].bundle.js',
+    // chunkFilename: 'js/[id]js', // 默认启用 NamedModulesPlugin，不使用id
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/'
   },
@@ -27,8 +29,12 @@ module.exports = merge(common, {
     new webpack.HotModuleReplacementPlugin(), // HMR
     new MiniCssExtractPlugin({
       filename: 'css/[name].css'
+      // chunkFilename: 'css/[id].css' // 默认启用 NamedModulesPlugin，不使用id
     })
   ],
+  optimization: {
+    namedModules: true // 替代 NamedModulesPlugin，固定moduleId，开发环境默认启用
+  },
   module: {
     rules: [
       {
@@ -65,8 +71,9 @@ module.exports = merge(common, {
           {
             loader: 'url-loader',
             options: {
+              outputPath: 'img',
               limit: 8192,
-              name: '[path][name].[ext]' // [path]===/src/assets/img/
+              name: '[name].[ext]' // [path]===/src/assets/img/
             }
           }
         ]
@@ -78,8 +85,9 @@ module.exports = merge(common, {
           {
             loader: 'url-loader',
             options: {
+              outputPath: 'css/font',
               limit: 8192,
-              name: '[path][name].[ext]'
+              name: '[name].[ext]'
             }
           }
         ]
