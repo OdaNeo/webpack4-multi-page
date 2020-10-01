@@ -4,7 +4,7 @@ set -e
 
 git add -A
 
-git commit -m 'img dev环境开启path'
+git commit -m 'add progress'
 
 git push git@github.com:Oda-T/webpack4-multi-page.git master:master
 
