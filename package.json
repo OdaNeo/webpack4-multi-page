@@ -39,7 +39,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "cross-env NODE_ENV=production webpack --config webpack.prod.js",
+    "build": "cross-env NODE_ENV=production webpack --progress --config webpack.prod.js",
     "build:stage": "cross-env NODE_ENV=production webpack --config webpack.prod.js --output-public-path='/'",
     "build:gh": "cross-env NODE_ENV=production webpack --config webpack.prod.js --output-public-path='/webpack4-multi-page/'",
     "build:local": "cross-env NODE_ENV=production webpack --config webpack.prod.js --output-public-path='./'",

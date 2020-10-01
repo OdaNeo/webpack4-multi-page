@@ -4,7 +4,7 @@ set -e
 
 git add -A
 
-git commit -m 'add progress'
+git commit -m 'new favicon.ico'
 
 git push git@github.com:Oda-T/webpack4-multi-page.git master:master
 
