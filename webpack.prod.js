@@ -10,7 +10,9 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin') // 从js中提�
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin') // cssnano
 
 const TerserJSPlugin = require('terser-webpack-plugin') // 压缩js代码
-const CompressionPlugin = require('compression-webpack-plugin') // gzip
+// const CompressionPlugin = require('compression-webpack-plugin') // gzip
+
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin') // 图片压缩
 
 module.exports = merge(common, {
   mode: 'production', // 防止控制台报错
@@ -70,11 +72,12 @@ module.exports = merge(common, {
     }),
     new ScriptExtHtmlWebpackPlugin({
       inline: /runtime~.*\.js$/ // 内联runtimeChunk到html
-    }),
-    new CompressionPlugin({
-      exclude: [/dist/],
-      algorithm: 'gzip'
     })
+    // new CompressionPlugin({
+    //   test: /\.(js|css)$/i,
+    //   algorithm: 'gzip',
+    //   deleteOriginalAssets: true
+    // })
   ],
   module: {
     rules: [
@@ -111,37 +114,60 @@ module.exports = merge(common, {
             options: {
               limit: 8192,
               outputPath: 'img',
-              name: '[name].[contenthash:8].[ext]'
+              name: '[name].[hash:8].[ext]'
               // publicPath: '../img' // build:local 需要打开这个
             }
           },
           {
-            loader: 'image-webpack-loader',
+            loader: ImageMinimizerPlugin.loader,
             options: {
-              mozjpeg: {
-                // progressive 先加载模糊图片 baseline 从上到下刷新
-                progressive: true
-              },
-              // optipng.enabled: false will disable optipng
-              optipng: {
-                enabled: false
-              },
-              pngquant: {
-                quality: [0.65, 0.9],
-                speed: 4
-              },
-              gifsicle: {
-                interlaced: false
-              },
-              webp: {
-                quality: 75
-              },
-              // svg 压缩效果不明显
-              imageminSvgo: {
-                plugins: [{ removeViewBox: false }]
+              severityError: 'warning', // Ignore errors on corrupted images
+              minimizerOptions: {
+                plugins: [
+                  ['gifsicle', { interlaced: true }],
+                  ['mozjpeg', { progressive: true, quality: 50 }],
+                  ['pngquant', { quality: [0.65, 0.75], speed: 4 }],
+                  [
+                    'svgo',
+                    {
+                      plugins: [
+                        {
+                          removeViewBox: false
+                        }
+                      ]
+                    }
+                  ]
+                ]
               }
             }
           }
+          // {
+          //   loader: 'image-webpack-loader',
+          //   options: {
+          //     mozjpeg: {
+          //       // progressive 先加载模糊图片 baseline 从上到下刷新
+          //       progressive: true
+          //     },
+          //     // optipng.enabled: false will disable optipng
+          //     optipng: {
+          //       enabled: false
+          //     },
+          //     pngquant: {
+          //       quality: [0.65, 0.9],
+          //       speed: 4
+          //     },
+          //     gifsicle: {
+          //       interlaced: false
+          //     },
+          //     webp: {
+          //       quality: 75
+          //     },
+          //     // svg 压缩效果不明显
+          //     imageminSvgo: {
+          //       plugins: [{ removeViewBox: false }]
+          //     }
+          //   }
+          // }
         ]
       },
       {

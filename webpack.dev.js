@@ -48,6 +48,7 @@ module.exports = merge(common, {
               reloadAll: true
             }
           },
+          // 'style-loader',
           'css-loader',
           {
             loader: 'postcss-loader',

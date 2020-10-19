@@ -47,6 +47,6 @@ npm run build:gh
 npm run build:stage
 ```
 
-## NOTE: 压缩图片使用 image-webpack-loader, 需要为 npm 设置代理 npm config set proxy=http://127.0.0.1:1080
+## NOTE: 压缩图片使用 image-webpack-loader, 需要为 npm 设置代理 npm config set proxy=http://127.0.0.1:1080，容易发生IE下图片加载失败
 
-## TODO: 图片懒加载 import
+## NOTE: 压缩图片也可以用 image-minimizer-webpack-plugin，压缩效率不如 image-webpack-loader 但图片不会加载失败
