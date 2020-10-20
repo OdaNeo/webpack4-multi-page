@@ -10,6 +10,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin') // 从js中提�
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin') // cssnano
 
 const TerserJSPlugin = require('terser-webpack-plugin') // 压缩js代码
+
 // const CompressionPlugin = require('compression-webpack-plugin') // gzip
 
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin') // 图片压缩
@@ -18,13 +19,14 @@ module.exports = merge(common, {
   mode: 'production', // 防止控制台报错
   output: {
     // 多出口 prod环境下启用contenthash
-    filename: 'js/[name].[contenthash:8].bundle.js',
+    filename: 'js/[name]_[chunkhash:8].bundle.js',
     path: resolve('dist'),
     publicPath: '/'
   },
   optimization: {
     minimizer: [
       new TerserJSPlugin({
+        cache: true, // 开启缓存
         terserOptions: {
           compress: {
             drop_console: true // 移除console
@@ -56,9 +58,9 @@ module.exports = merge(common, {
         },
         default: {
           name: 'default',
-          test: resolve('src/utils'),
+          test: /\\src\\utils\\/,
           minChunks: 1,
-          priority: 5,
+          priority: 10,
           reuseExistingChunk: true
         }
       }
@@ -67,8 +69,8 @@ module.exports = merge(common, {
   plugins: [
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
-      filename: 'css/[name].[contenthash:8].css' // prod启用contenthash
-      // chunkFilename: 'css/[name].[contenthash:8].css'
+      filename: 'css/[name]_[contenthash:8].css' // prod启用contenthash
+      // chunkFilename: 'css/[name]_[contenthash:8].chunk.css'
     }),
     new ScriptExtHtmlWebpackPlugin({
       inline: /runtime~.*\.js$/ // 内联runtimeChunk到html
@@ -83,7 +85,7 @@ module.exports = merge(common, {
     rules: [
       {
         test: /\.(css|styl)$/, // css-loader
-        exclude: [/dist/],
+        exclude: [/node_modules/, /dist/],
         use: [
           {
             loader: MiniCssExtractPlugin.loader
@@ -113,8 +115,8 @@ module.exports = merge(common, {
             loader: 'url-loader',
             options: {
               limit: 8192,
-              outputPath: 'img',
-              name: '[name].[hash:8].[ext]'
+              outputPath: 'img/',
+              name: '[emoji][emoji][name]_[hash:8].[ext]'
               // publicPath: '../img' // build:local 需要打开这个
             }
           },
@@ -172,13 +174,13 @@ module.exports = merge(common, {
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/,
-        include: [resolve('src/styles/font')],
+        include: resolve('src/styles/font'),
         use: [
           {
             loader: 'url-loader',
             options: {
               limit: 8192,
-              outputPath: 'css/font',
+              outputPath: 'css/font/',
               name: '[name].[ext]'
               // publicPath: '../css/font' // build:local 需要打开这个
             }
@@ -194,7 +196,14 @@ module.exports = merge(common, {
       {
         test: /\.js$/,
         exclude: [/node_modules/, /dist/],
-        use: 'babel-loader'
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              cacheDirectory: true // 开启缓存
+            }
+          }
+        ]
       }
     ]
   }

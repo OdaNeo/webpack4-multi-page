@@ -5,7 +5,9 @@ const { merge } = require('webpack-merge')
 const common = require('./webpack.common')
 const webpack = require('webpack')
 
-const MiniCssExtractPlugin = require('mini-css-extract-plugin') // 从js中提取css
+const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
+
+const MiniCssExtractPlugin = require('mini-css-extract-plugin') // 从js中提取css，dev环境可以替换成style-loader
 
 console.log(process.env.NODE_ENV) // 需要安装cross-env并配置script
 
@@ -14,7 +16,7 @@ module.exports = merge(common, {
   output: {
     // 多出口 dev环境下不启用hash
     filename: 'js/[name].bundle.js',
-    // chunkFilename: 'js/[id]js', // 默认启用 NamedModulesPlugin，不使用id
+    // chunkFilename: 'js/[name].bundle.js', // 默认启用 NamedModulesPlugin，不使用id
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/'
   },
@@ -23,17 +25,29 @@ module.exports = merge(common, {
     contentBase: path.join(__dirname, 'dist'),
     port: 7863,
     open: true,
-    hot: true
+    hot: true,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api': ''
+        }
+      }
+    }
   },
+  stats: 'errors-only', // 配合 friendly-errors-webpack-plugin
   plugins: [
     new webpack.HotModuleReplacementPlugin(), // HMR
+    new FriendlyErrorsWebpackPlugin(),
+
     new MiniCssExtractPlugin({
       filename: 'css/[name].css'
-      // chunkFilename: 'css/[id].css' // 默认启用 NamedModulesPlugin，不使用id
+      // chunkFilename: 'css/[name].chunk.css' // 默认启用 NamedModulesPlugin，不使用id
     })
   ],
   optimization: {
-    namedModules: true // 替代 NamedModulesPlugin，固定moduleId，开发环境默认启用
+    namedModules: true // 替代 NamedModulesPlugin，固定moduleId，生产环境默认启用
   },
   module: {
     rules: [
@@ -72,9 +86,9 @@ module.exports = merge(common, {
           {
             loader: 'url-loader',
             options: {
-              // outputPath: 'img',
+              outputPath: 'img/',
               limit: 8192,
-              name: '[path][name].[ext]' // [path]===/src/assets/img/ 防止文件名重复
+              name: '[emoji][emoji][name].[ext]' // [path]:/src/assets/img/ 添加path可以防止文件名重复
             }
           }
         ]
@@ -86,7 +100,7 @@ module.exports = merge(common, {
           {
             loader: 'url-loader',
             options: {
-              outputPath: 'css/font',
+              outputPath: 'css/font/',
               limit: 8192,
               name: '[name].[ext]'
             }
