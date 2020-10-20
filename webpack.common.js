@@ -3,8 +3,6 @@ const resolve = dir => path.resolve(__dirname, dir)
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 
-const PurgecssPlugin = require('purgecss-webpack-plugin') // css tree shaking
-
 const glob = require('glob') // glob 动态生成entry与html模板
 const pagesName = glob.sync('src/pages/*') // [ 'src/pages/index', 'src/pages/page1', 'src/pages/page2' ]
 const entryFile = {}
@@ -40,9 +38,6 @@ module.exports = {
           to: 'static'
         }
       ]
-    }),
-    new PurgecssPlugin({
-      paths: glob.sync(`src/**/*`, { nodir: true })
     })
   ]),
 

@@ -1,5 +1,7 @@
 const path = require('path')
 const resolve = dir => path.resolve(__dirname, dir)
+const glob = require('glob')
+
 const { merge } = require('webpack-merge')
 const common = require('./webpack.common')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
@@ -7,6 +9,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin') // runtime内联到html文件中，减少http请求
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin') // 从js中提取css
+const PurgecssPlugin = require('purgecss-webpack-plugin') // css tree shaking
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin') // cssnano
 
 const TerserJSPlugin = require('terser-webpack-plugin') // 压缩js代码
@@ -71,6 +74,9 @@ module.exports = merge(common, {
     new MiniCssExtractPlugin({
       filename: 'css/[name]_[contenthash:8].css' // prod启用contenthash
       // chunkFilename: 'css/[name]_[contenthash:8].chunk.css'
+    }),
+    new PurgecssPlugin({
+      paths: glob.sync(`src/**/*`, { nodir: true })
     }),
     new ScriptExtHtmlWebpackPlugin({
       inline: /runtime~.*\.js$/ // 内联runtimeChunk到html

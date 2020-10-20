@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[0],[function(n,e,p){},,,,function(n,e,p){"use strict";p.r(e);p(0);var a=p.p+"img/👩🏻‍🌾👩🏻‍🌾jj-ying-DYHx6h3lMdY-unsplash@2x_99adea69.png",i=new Image,c=document.querySelector("#main");i.src=a,c.appendChild(i)}],[[4,2]]]);
