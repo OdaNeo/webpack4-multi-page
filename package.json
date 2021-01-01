@@ -14,6 +14,7 @@
     "@babel/core": "^7.11.6",
     "@babel/preset-env": "^7.11.5",
     "autoprefixer": "^9.8.6",
+    "babel-eslint": "^10.1.0",
     "babel-loader": "^8.1.0",
     "clean-webpack-plugin": "^3.0.0",
     "compression-webpack-plugin": "^6.0.2",
@@ -53,7 +54,8 @@
     "build:stage": "cross-env NODE_ENV=production webpack --config webpack.prod.js --output-public-path='/'",
     "build:gh": "cross-env NODE_ENV=production webpack --config webpack.prod.js --output-public-path='/webpack4-multi-page/'",
     "build:local": "cross-env NODE_ENV=production webpack --config webpack.prod.js --output-public-path='./'",
-    "dev": "cross-env NODE_ENV=development webpack-dev-server  --profile --progress  --config webpack.dev.js"
+    "dev": "cross-env NODE_ENV=development webpack-dev-server  --profile --progress  --config webpack.dev.js",
+    "lint": "eslint --ext .js src"
   },
   "keywords": [],
   "author": "Oda-T",
