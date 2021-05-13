@@ -7,8 +7,6 @@ firebase.json
 .env.local
 .env.*.local
 
-.idea
-.vscode
 *.suo
 *.ntvs*
 *.njsproj
@@ -17,6 +15,3 @@ firebase.json
 
 *.log
 *.temp
-
-package-lock.json
-yarn.lock

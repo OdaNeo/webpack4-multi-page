@@ -9,4 +9,5 @@ function _rem() {
   window.addEventListener(resizeEvent, a, false)
   document.addEventListener('DOMContentLoaded', a, false)
 }
+
 _rem()

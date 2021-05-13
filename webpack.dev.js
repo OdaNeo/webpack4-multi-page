@@ -1,15 +1,9 @@
 const path = require('path')
 const resolve = dir => path.resolve(__dirname, dir)
-
 const { merge } = require('webpack-merge')
 const common = require('./webpack.common')
 const webpack = require('webpack')
-
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
-
-const MiniCssExtractPlugin = require('mini-css-extract-plugin') // 从js中提取css，dev环境可以替换成style-loader
-
-console.log(process.env.NODE_ENV) // 需要安装cross-env并配置script
 
 module.exports = merge(common, {
   mode: 'development',
@@ -17,13 +11,12 @@ module.exports = merge(common, {
     // 多出口 dev环境下不启用hash
     filename: 'js/[name].bundle.js',
     // chunkFilename: 'js/[name].bundle.js', // 默认启用 NamedModulesPlugin，不使用id
-    path: path.resolve(__dirname, 'dist'),
-    publicPath: '/'
+    path: path.resolve(__dirname, 'dist')
   },
   devtool: 'eval-cheap-module-source-map',
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
-    port: 7863,
+    port: 5050,
     open: true,
     hot: true,
     proxy: {
@@ -39,12 +32,7 @@ module.exports = merge(common, {
   stats: 'errors-only', // 配合 friendly-errors-webpack-plugin
   plugins: [
     new webpack.HotModuleReplacementPlugin(), // HMR
-    new FriendlyErrorsWebpackPlugin(),
-
-    new MiniCssExtractPlugin({
-      filename: 'css/[name].css'
-      // chunkFilename: 'css/[name].chunk.css' // 默认启用 NamedModulesPlugin，不使用id
-    })
+    new FriendlyErrorsWebpackPlugin()
   ],
   optimization: {
     namedModules: true // 替代 NamedModulesPlugin，固定moduleId，生产环境默认启用
@@ -55,20 +43,15 @@ module.exports = merge(common, {
         test: /\.(css|styl)$/, // css-loader
         exclude: [/dist/],
         use: [
-          {
-            loader: MiniCssExtractPlugin.loader, // dev环境下开启hmr
-            options: {
-              hmr: true,
-              reloadAll: true
-            }
-          },
-          // 'style-loader',
+          'style-loader',
           'css-loader',
           {
             loader: 'postcss-loader',
             options: {
               postcssOptions: {
+                ident: 'postcss',
                 plugins: [
+                  require('tailwindcss'),
                   require('postcss-px2rem')({
                     remUnit: 50, // 50px = 1rem
                     remPrecision: 2 // rem的小数点后位数

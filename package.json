@@ -22,7 +22,9 @@
     "cross-env": "^7.0.2",
     "css-loader": "^4.2.2",
     "eslint": "^7.8.1",
+    "eslint-config-prettier": "^8.3.0",
     "eslint-loader": "^4.0.2",
+    "eslint-plugin-prettier": "^3.4.0",
     "file-loader": "^6.1.0",
     "friendly-errors-webpack-plugin": "^1.7.0",
     "glob": "^7.1.6",
@@ -39,9 +41,10 @@
     "postcss": "^7.0.32",
     "postcss-loader": "^4.0.1",
     "postcss-px2rem": "^0.3.0",
-    "purgecss-webpack-plugin": "^3.0.0",
+    "prettier": "2.3.0",
     "raw-loader": "^4.0.2",
     "style-loader": "^1.2.1",
+    "tailwindcss": "^1.9.6",
     "url-loader": "^4.1.0",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
@@ -51,13 +54,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "cross-env NODE_ENV=production webpack  --profile --progress  --config webpack.prod.js",
-    "build:stage": "cross-env NODE_ENV=production webpack --config webpack.prod.js --output-public-path='/'",
-    "build:gh": "cross-env NODE_ENV=production webpack --config webpack.prod.js --output-public-path='/webpack4-multi-page/'",
-    "build:local": "cross-env NODE_ENV=production webpack --config webpack.prod.js --output-public-path='./'",
+    "build:gh": "cross-env NODE_ENV=production webpack --profile --progress --config webpack.prod.js --output-public-path='/webpack4-multi-page/'",
     "dev": "cross-env NODE_ENV=development webpack-dev-server  --profile --progress  --config webpack.dev.js",
-    "lint": "eslint --ext .js src"
+    "lint": "prettier --write src/**/*.{js,jsx}"
   },
   "keywords": [],
-  "author": "Oda-T",
+  "author": "OdaNeo",
   "license": "MIT"
 }

@@ -1,30 +1,24 @@
 const path = require('path')
 const resolve = dir => path.resolve(__dirname, dir)
-const glob = require('glob')
-
 const { merge } = require('webpack-merge')
 const common = require('./webpack.common')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin') // runtime内联到html文件中，减少http请求
-
 const MiniCssExtractPlugin = require('mini-css-extract-plugin') // 从js中提取css
-const PurgecssPlugin = require('purgecss-webpack-plugin') // css tree shaking
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin') // cssnano
-
 const TerserJSPlugin = require('terser-webpack-plugin') // 压缩js代码
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin') // 图片压缩
 
 // const CompressionPlugin = require('compression-webpack-plugin') // gzip
-
-const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin') // 图片压缩
+// const PurgecssPlugin = require('purgecss-webpack-plugin') // css tree shaking : already included by tailwind
 
 module.exports = merge(common, {
   mode: 'production', // 防止控制台报错
   output: {
     // 多出口 prod环境下启用contenthash
-    filename: 'js/[name]_[chunkhash:8].bundle.js',
+    filename: 'js/[name]_[contenthash:8].bundle.js',
     path: resolve('dist'),
-    publicPath: '/'
+    publicPath: ''
   },
   optimization: {
     minimizer: [
@@ -75,12 +69,12 @@ module.exports = merge(common, {
       filename: 'css/[name]_[contenthash:8].css' // prod启用contenthash
       // chunkFilename: 'css/[name]_[contenthash:8].chunk.css'
     }),
-    new PurgecssPlugin({
-      paths: glob.sync(`src/**/*`, { nodir: true })
-    }),
     new ScriptExtHtmlWebpackPlugin({
       inline: /runtime~.*\.js$/ // 内联runtimeChunk到html
     })
+    // new PurgecssPlugin({
+    //   paths: glob.sync(`src/**/*`, { nodir: true })
+    // }),
     // new CompressionPlugin({
     //   test: /\.(js|css)$/i,
     //   algorithm: 'gzip',
@@ -103,6 +97,7 @@ module.exports = merge(common, {
               postcssOptions: {
                 plugins: [
                   require('autoprefixer'),
+                  require('tailwindcss'),
                   require('postcss-px2rem')({
                     remUnit: 50, // 50px = 1rem
                     remPrecision: 2 // rem的小数点后位数
@@ -121,9 +116,9 @@ module.exports = merge(common, {
             loader: 'url-loader',
             options: {
               limit: 8192,
-              outputPath: 'img/',
-              name: '[emoji][emoji][name]_[hash:8].[ext]'
-              // publicPath: '../img' // build:local 需要打开这个
+              outputPath: '/img/',
+              name: '[emoji][emoji][name]_[contenthash:8].[ext]'
+              // publicPath: '../img'
             }
           },
           {
@@ -170,7 +165,6 @@ module.exports = merge(common, {
           //     webp: {
           //       quality: 75
           //     },
-          //     // svg 压缩效果不明显
           //     imageminSvgo: {
           //       plugins: [{ removeViewBox: false }]
           //     }
@@ -186,9 +180,9 @@ module.exports = merge(common, {
             loader: 'url-loader',
             options: {
               limit: 8192,
-              outputPath: 'css/font/',
+              outputPath: '/css/font/',
               name: '[name].[ext]'
-              // publicPath: '../css/font' // build:local 需要打开这个
+              // publicPath: '../css/font'
             }
           }
         ]

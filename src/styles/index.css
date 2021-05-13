@@ -1,17 +1,22 @@
-@import 'common/reset.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 @import 'font/font.css';
-
-.CascadiaCode {
-  font-family: 'CascadiaCode';
-}
-
-.img1 {
-  width: 511px;
-  height: 341px;
-  background: url('@/assets/img/xiaobo.jpg') no-repeat center center;
-  background-size: 100% 100%;
+@layer components {
+  .CascadiaCode {
+    font-family: 'CascadiaCode';
+  }
+  .img1 {
+    width: 511px;
+    height: 341px;
+    background: url('@/assets/img/xiaobo.jpg') no-repeat center center;
+    background-size: 100% 100%;
+  }
+  .img2 {
+    height: 200px
+  }
 }
 
 .test {
-  height: 100px;
+  @apply bg-blue-500 text-green-400;
 }
