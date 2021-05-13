@@ -26,10 +26,10 @@ module.exports = merge(common, {
         cache: true, // 开启缓存
         terserOptions: {
           compress: {
-            drop_console: true // 移除console
+            drop_console: true // remove console
           },
           output: {
-            comments: false // 移除js中的注释
+            comments: false // remove js-comment
           }
         }
       }),
@@ -117,7 +117,7 @@ module.exports = merge(common, {
             options: {
               limit: 8192,
               outputPath: '/img/',
-              name: '[emoji][emoji][name]_[contenthash:8].[ext]'
+              name: '[name]_[contenthash:8].[ext]'
               // publicPath: '../img'
             }
           },

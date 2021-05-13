@@ -1,1 +1,1 @@
-import '@/styles/index.css' // 页面样式引入
+import '@/styles/index.css' // import css

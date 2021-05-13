@@ -12,10 +12,6 @@
 
 ## use art-template instead of html-loader
 
-## 项目预览 firebase
-
-https://webpack4-multi-page.web.app
-
 ## DEV
 
 ```bash
@@ -28,6 +24,9 @@ cd webpack4-multi-page
 # 安装依赖
 npm instal
 cnpm instal
+
+# 格式化项目
+npm run lint
 
 # 启动服务
 npm run dev
@@ -42,8 +41,6 @@ npm run build
 # 构建GithubPage版本
 npm run build:gh
 
-# 构建本地serve环境，可自定义publicPath
-npm run build:stage
 ```
 
 ## NOTE: 压缩图片使用 image-webpack-loader 或 image-minimizer-webpack-plugin，请使用 cnpm 安装依赖，或者使用 npm 代理

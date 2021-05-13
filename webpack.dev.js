@@ -54,7 +54,7 @@ module.exports = merge(common, {
                   require('tailwindcss'),
                   require('postcss-px2rem')({
                     remUnit: 50, // 50px = 1rem
-                    remPrecision: 2 // rem的小数点后位数
+                    remPrecision: 2 // rem
                   })
                 ]
               }
@@ -71,7 +71,7 @@ module.exports = merge(common, {
             options: {
               outputPath: 'img/',
               limit: 8192,
-              name: '[emoji][emoji][name].[ext]' // [path]:/src/assets/img/ 添加path可以防止文件名重复
+              name: '[emoji][name].[ext]' // [path]:/src/assets/img/ 添加path可以防止文件名重复
             }
           }
         ]
