@@ -1,7 +1,7 @@
 {
   "name": "webpack4-multi-page",
   "version": "1.0.0",
-  "description": "webpack, webpack4, multi-page",
+  "description": "webpack, webpack4, multi-page, tailwind css",
   "private": true,
   "dependencies": {
     "core-js": "^3.6.5",
@@ -54,6 +54,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "cross-env NODE_ENV=production webpack  --profile --progress  --config webpack.prod.js",
+    "build:profile": "cross-env NODE_ENV=production webpack  --profile --json > stats.json --progress  --config webpack.prod.js",
     "build:gh": "cross-env NODE_ENV=production webpack --profile --progress --config webpack.prod.js --output-public-path='/webpack4-multi-page/'",
     "dev": "cross-env NODE_ENV=development webpack-dev-server  --profile --progress  --config webpack.dev.js",
     "lint": "prettier --write src/**/*.{js,ts,jsx,tsx}"

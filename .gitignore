@@ -5,6 +5,8 @@
 .firebaserc
 firebase.json
 
+stats.json
+
 .env.local
 .env.*.local
 

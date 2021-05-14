@@ -3,27 +3,28 @@ const resolve = dir => path.resolve(__dirname, dir)
 const { merge } = require('webpack-merge')
 const common = require('./webpack.common')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin') // runtime内联到html文件中，减少http请求
+const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin') // inline runtime to html，to reduce http-request
 const MiniCssExtractPlugin = require('mini-css-extract-plugin') // 从js中提取css
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin') // cssnano
 const TerserJSPlugin = require('terser-webpack-plugin') // 压缩js代码
-const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin') // 图片压缩
 
+// const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin') // image minimizer
 // const CompressionPlugin = require('compression-webpack-plugin') // gzip
 // const PurgecssPlugin = require('purgecss-webpack-plugin') // css tree shaking : already included by tailwind
 
 module.exports = merge(common, {
-  mode: 'production', // 防止控制台报错
+  mode: 'production', //
   output: {
-    // 多出口 prod环境下启用contenthash
-    filename: 'js/[name]_[contenthash:8].bundle.js',
-    path: resolve('dist'),
+    filename: 'js/[name]_[contenthash:8].bundle.js', // output path, [name]_[-hash] from prod environment
+    chunkFilename: 'js/[name]_[contenthash:8].chunk.js', // chunkFilename for no-enter chunk-file
+    path: resolve('dist'), // default
     publicPath: ''
   },
+  devtool: 'hidden-source-map',
   optimization: {
     minimizer: [
       new TerserJSPlugin({
-        cache: true, // 开启缓存
+        cache: true, // cache
         terserOptions: {
           compress: {
             drop_console: true // remove console
@@ -35,11 +36,11 @@ module.exports = merge(common, {
       }),
       new OptimizeCssAssetsPlugin({
         cssProcessorPluginOptions: {
-          preset: ['default', { discardComments: { removeAll: true } }] // 开启cssnano
+          preset: ['default', { discardComments: { removeAll: true } }] // cssnano
         }
       })
     ],
-    runtimeChunk: true, // 防止app.js缓存失效
+    runtimeChunk: true, // html.js cache
     splitChunks: {
       chunks: 'all', // 异步模块和入口模块
       minSize: 30000,
@@ -53,8 +54,8 @@ module.exports = merge(common, {
           minChunks: 1,
           priority: 20 // 权重
         },
-        default: {
-          name: 'default',
+        utils: {
+          name: 'utils',
           test: /\\src\\utils\\/,
           minChunks: 1,
           priority: 10,
@@ -66,11 +67,11 @@ module.exports = merge(common, {
   plugins: [
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
-      filename: 'css/[name]_[contenthash:8].css' // prod启用contenthash
-      // chunkFilename: 'css/[name]_[contenthash:8].chunk.css'
+      filename: 'css/[name]_[contenthash:8].css', // prod contenthash
+      chunkFilename: 'css/[name]_[contenthash:8].chunk.css'
     }),
     new ScriptExtHtmlWebpackPlugin({
-      inline: /runtime~.*\.js$/ // 内联runtimeChunk到html
+      inline: /runtime~.*\.js/ // inline runtimeChunk to html
     })
     // new PurgecssPlugin({
     //   paths: glob.sync(`src/**/*`, { nodir: true })
@@ -84,13 +85,18 @@ module.exports = merge(common, {
   module: {
     rules: [
       {
-        test: /\.(css|styl)$/, // css-loader
-        exclude: [/node_modules/, /dist/],
+        test: /\.css$/, // css-loader
+        include: /\\src\\/,
         use: [
           {
             loader: MiniCssExtractPlugin.loader
           },
-          'css-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1 // setups number of loaders applied before CSS loader, enable to import tailwind-css-file from tailwind-css-file
+            }
+          },
           {
             loader: 'postcss-loader',
             options: {
@@ -99,8 +105,8 @@ module.exports = merge(common, {
                   require('autoprefixer'),
                   require('tailwindcss'),
                   require('postcss-px2rem')({
-                    remUnit: 50, // 50px = 1rem
-                    remPrecision: 2 // rem的小数点后位数
+                    remUnit: 16, // 16px = 1rem
+                    remPrecision: 2 // rem
                   })
                 ]
               }
@@ -110,7 +116,7 @@ module.exports = merge(common, {
       },
       {
         test: /\.(png|jpe?g|gif|svg)$/i,
-        exclude: [/node_modules/, /dist/],
+        include: /\\src\\/,
         use: [
           {
             loader: 'url-loader',
@@ -122,51 +128,50 @@ module.exports = merge(common, {
             }
           },
           {
-            loader: ImageMinimizerPlugin.loader,
+            loader: 'image-webpack-loader',
             options: {
-              severityError: 'warning', // Ignore errors on corrupted images
-              minimizerOptions: {
-                plugins: [
-                  ['gifsicle', { interlaced: true }],
-                  ['mozjpeg', { progressive: true, quality: 50 }],
-                  ['pngquant', { quality: [0.65, 0.75], speed: 4 }],
-                  [
-                    'svgo',
-                    {
-                      plugins: [
-                        {
-                          removeViewBox: false
-                        }
-                      ]
-                    }
-                  ]
-                ]
+              mozjpeg: {
+                progressive: true
+              },
+              // optipng.enabled: false will disable optipng
+              optipng: {
+                enabled: false
+              },
+              pngquant: {
+                quality: [0.65, 0.9],
+                speed: 4
+              },
+              gifsicle: {
+                interlaced: false
+              },
+              webp: {
+                quality: 75
+              },
+              imageminSvgo: {
+                plugins: [{ removeViewBox: false }]
               }
             }
           }
           // {
-          //   loader: 'image-webpack-loader',
+          //   loader: ImageMinimizerPlugin.loader,
           //   options: {
-          //     mozjpeg: {
-          //       // progressive 先加载模糊图片 baseline 从上到下刷新
-          //       progressive: true
-          //     },
-          //     // optipng.enabled: false will disable optipng
-          //     optipng: {
-          //       enabled: false
-          //     },
-          //     pngquant: {
-          //       quality: [0.65, 0.9],
-          //       speed: 4
-          //     },
-          //     gifsicle: {
-          //       interlaced: false
-          //     },
-          //     webp: {
-          //       quality: 75
-          //     },
-          //     imageminSvgo: {
-          //       plugins: [{ removeViewBox: false }]
+          //     severityError: 'warning', // Ignore errors on corrupted images
+          //     minimizerOptions: {
+          //       plugins: [
+          //         ['gifsicle', { interlaced: true }],
+          //         ['mozjpeg', { progressive: true, quality: 50 }],
+          //         ['pngquant', { quality: [0.65, 0.75], speed: 4 }],
+          //         [
+          //           'svgo',
+          //           {
+          //             plugins: [
+          //               {
+          //                 removeViewBox: false
+          //               }
+          //             ]
+          //           }
+          //         ]
+          //       ]
           //     }
           //   }
           // }
@@ -174,7 +179,7 @@ module.exports = merge(common, {
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/,
-        include: resolve('src/styles/font'),
+        include: /\\src\\styles\\font\\/,
         use: [
           {
             loader: 'url-loader',

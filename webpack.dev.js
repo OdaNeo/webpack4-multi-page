@@ -8,14 +8,12 @@ const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
 module.exports = merge(common, {
   mode: 'development',
   output: {
-    // 多出口 dev环境下不启用hash
-    filename: 'js/[name].bundle.js',
-    // chunkFilename: 'js/[name].bundle.js', // 默认启用 NamedModulesPlugin，不使用id
-    path: path.resolve(__dirname, 'dist')
+    path: resolve('dist'), // default
+    publicPath: ''
   },
   devtool: 'eval-cheap-module-source-map',
   devServer: {
-    contentBase: path.join(__dirname, 'dist'),
+    contentBase: './dist',
     port: 5050,
     open: true,
     hot: true,
@@ -29,22 +27,24 @@ module.exports = merge(common, {
       }
     }
   },
-  stats: 'errors-only', // 配合 friendly-errors-webpack-plugin
+  stats: 'errors-only', // friendly-errors-webpack-plugin
   plugins: [
     new webpack.HotModuleReplacementPlugin(), // HMR
     new FriendlyErrorsWebpackPlugin()
   ],
-  optimization: {
-    namedModules: true // 替代 NamedModulesPlugin，固定moduleId，生产环境默认启用
-  },
   module: {
     rules: [
       {
-        test: /\.(css|styl)$/, // css-loader
-        exclude: [/dist/],
+        test: /\.css$/, // css-loader
+        include: /\\src\\/,
         use: [
           'style-loader',
-          'css-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1 // setups number of loaders applied before CSS loader, enable to import tailwind-css-file from tailwind-css-file
+            }
+          },
           {
             loader: 'postcss-loader',
             options: {
@@ -53,7 +53,7 @@ module.exports = merge(common, {
                 plugins: [
                   require('tailwindcss'),
                   require('postcss-px2rem')({
-                    remUnit: 50, // 50px = 1rem
+                    remUnit: 16, // 16px = 1rem
                     remPrecision: 2 // rem
                   })
                 ]
@@ -63,36 +63,33 @@ module.exports = merge(common, {
         ]
       },
       {
-        test: /\.(png|jpe?g|gif|svg)$/i,
-        exclude: [/node_modules/, /dist/],
+        test: /\.(png|jpe?g|gif|svg)$/,
+        include: /\\src\\/,
         use: [
           {
             loader: 'url-loader',
             options: {
-              outputPath: 'img/',
               limit: 8192,
-              name: '[emoji][name].[ext]' // [path]:/src/assets/img/ 添加path可以防止文件名重复
+              name: '[path][name].[ext]' // [path]:/src/assets/img/ 添加path可以防止文件名重复
             }
           }
         ]
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/,
-        include: [resolve('src/styles/font')],
+        include: /\\src\\/,
         use: [
           {
             loader: 'url-loader',
             options: {
-              outputPath: 'css/font/',
-              limit: 8192,
-              name: '[name].[ext]'
+              limit: 8192
             }
           }
         ]
       },
       {
         test: /\.js$/,
-        exclude: [/node_modules/, /dist/],
+        include: /\\src\\/,
         use: 'eslint-loader'
       }
     ]
