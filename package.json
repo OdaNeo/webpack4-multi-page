@@ -1,6 +1,6 @@
 {
   "name": "webpack4-multi-page",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "webpack, webpack4, multi-page",
   "private": true,
   "dependencies": {

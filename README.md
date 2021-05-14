@@ -8,10 +8,6 @@
 
 ## no jQuery
 
-## use url-loader instead of file-loader
-
-## use art-template instead of html-loader
-
 ## DEV
 
 ```bash
