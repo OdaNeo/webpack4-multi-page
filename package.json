@@ -72,8 +72,7 @@
   ],
   "lint-staged": {
     "*.{js,ts,jsx,tsx}": [
-      "prettier --write",
-      "git add"
+      "prettier --write"
     ]
   },
   "author": "OdaNeo",
