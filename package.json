@@ -29,6 +29,7 @@
     "friendly-errors-webpack-plugin": "^1.7.0",
     "glob": "^7.1.6",
     "html-webpack-plugin": "^4.4.1",
+    "husky": "^6.0.0",
     "image-minimizer-webpack-plugin": "^1.0.0",
     "image-webpack-loader": "^7.0.1",
     "imagemin-gifsicle": "^7.0.0",
@@ -57,7 +58,8 @@
     "build:profile": "cross-env NODE_ENV=production webpack  --profile --json > stats.json --progress  --config webpack.prod.js",
     "build:gh": "cross-env NODE_ENV=production webpack --profile --progress --config webpack.prod.js --output-public-path='/webpack4-multi-page/'",
     "dev": "cross-env NODE_ENV=development webpack-dev-server  --profile --progress  --config webpack.dev.js",
-    "lint": "prettier --write src/**/*.{js,ts,jsx,tsx}"
+    "lint": "prettier --write src/**/*.{js,ts,jsx,tsx}",
+    "precommit": "prettier --write src/**/*.{js,ts,jsx,tsx}"
   },
   "keywords": [],
   "author": "OdaNeo",
