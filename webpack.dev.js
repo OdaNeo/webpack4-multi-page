@@ -9,7 +9,7 @@ module.exports = merge(common, {
   mode: 'development',
   output: {
     path: resolve('dist'), // default
-    publicPath: ''
+    publicPath: '/'
   },
   devtool: 'eval-cheap-module-source-map',
   devServer: {
@@ -17,6 +17,7 @@ module.exports = merge(common, {
     port: 5050,
     open: true,
     hot: true,
+    hotOnly: true,
     proxy: {
       '/api': {
         target: 'http://localhost:3000',
@@ -32,7 +33,9 @@ module.exports = merge(common, {
     new webpack.HotModuleReplacementPlugin(), // HMR
     new FriendlyErrorsWebpackPlugin()
   ],
+
   module: {
+    noParse: /jquery|lodash/, // parse ignore module
     rules: [
       {
         test: /\.css$/, // css-loader
@@ -63,26 +66,40 @@ module.exports = merge(common, {
         ]
       },
       {
-        test: /\.(png|jpe?g|gif|svg)$/,
+        test: /\.(png|jpe?g|gif|webp|svg)(\?.*)?$/,
         include: /\\src\\/,
         use: [
           {
             loader: 'url-loader',
             options: {
               limit: 8192,
-              name: '[path][name].[ext]' // [path]:/src/assets/img/ 添加path可以防止文件名重复
+              name: 'img/[name].[hash:8].[ext]'
             }
           }
         ]
       },
       {
-        test: /\.(woff|woff2|eot|ttf|otf)$/,
+        test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
         include: /\\src\\/,
         use: [
           {
             loader: 'url-loader',
             options: {
-              limit: 8192
+              limit: 8192,
+              name: 'media/[name].[hash:8].[ext]'
+            }
+          }
+        ]
+      },
+      {
+        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/i,
+        include: /\\src\\/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 8192,
+              name: 'fonts/[name].[hash:8].[ext]'
             }
           }
         ]

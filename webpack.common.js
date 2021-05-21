@@ -16,7 +16,7 @@ for (const i of pagesName) {
       filename: `${_name}.html`,
       template: resolve(`src/pages/${_name}/index.html`),
       chunks: [`${_name}`],
-      favicon: 'src/assets/favicon.ico'
+      favicon: 'static/favicon.ico'
     })
   )
 }
@@ -29,14 +29,18 @@ module.exports = {
     }
   },
   performance: false,
-  plugins: htmlFile.concat([
+  plugins: [
+    ...htmlFile,
     new CopyWebpackPlugin({
       patterns: [
         {
           from: 'static', // static目录下静态资源不打包
-          to: 'static'
+          to: 'static',
+          globOptions: {
+            ignore: ['.DS_Store', 'index.html']
+          }
         }
       ]
     })
-  ])
+  ]
 }

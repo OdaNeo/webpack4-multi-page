@@ -15,10 +15,10 @@ const TerserJSPlugin = require('terser-webpack-plugin') // 压缩js代码
 module.exports = merge(common, {
   mode: 'production', //
   output: {
-    filename: 'js/[name]_[contenthash:8].bundle.js', // output path, [name]_[-hash] from prod environment
-    chunkFilename: 'js/[name]_[contenthash:8].chunk.js', // chunkFilename for no-enter chunk-file
-    path: resolve('dist'), // default
-    publicPath: ''
+    publicPath: '/',
+    filename: 'js/[name].[contenthash:8].bundle.js', // output path, [name]_[-hash] from prod environment
+    chunkFilename: 'js/[name].[contenthash:8].chunk.js', // chunkFilename for no-enter chunk-file
+    path: resolve('dist') // default
   },
   devtool: 'hidden-source-map',
   optimization: {
@@ -67,8 +67,8 @@ module.exports = merge(common, {
   plugins: [
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
-      filename: 'css/[name]_[contenthash:8].css', // prod contenthash
-      chunkFilename: 'css/[name]_[contenthash:8].chunk.css'
+      filename: 'css/[name].[contenthash:8].css', // prod contenthash
+      chunkFilename: 'css/[name].[contenthash:8].chunk.css'
     }),
     new ScriptExtHtmlWebpackPlugin({
       inline: /runtime~.*\.js/ // inline runtimeChunk to html
@@ -115,15 +115,14 @@ module.exports = merge(common, {
         ]
       },
       {
-        test: /\.(png|jpe?g|gif|svg)$/i,
+        test: /\.(png|jpe?g|gif|webp|svg)(\?.*)?$/,
         include: /\\src\\/,
         use: [
           {
             loader: 'url-loader',
             options: {
               limit: 8192,
-              outputPath: '/img/',
-              name: '[name]_[contenthash:8].[ext]'
+              name: 'img/[name].[contenthash:8].[ext]'
               // publicPath: '../img'
             }
           },
@@ -178,16 +177,28 @@ module.exports = merge(common, {
         ]
       },
       {
-        test: /\.(woff|woff2|eot|ttf|otf)$/,
-        include: /\\src\\styles\\font\\/,
+        test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
+        include: /\\src\\/,
         use: [
           {
             loader: 'url-loader',
             options: {
               limit: 8192,
-              outputPath: '/css/font/',
-              name: '[name].[ext]'
-              // publicPath: '../css/font'
+              name: 'media/[name].[contenthash:8].[ext]'
+            }
+          }
+        ]
+      },
+      {
+        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/i,
+        include: /\\src\\/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 8192,
+              name: 'fonts/[name].[contenthash:8].[ext]'
+              // publicPath: '../fonts'
             }
           }
         ]
