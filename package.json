@@ -62,7 +62,7 @@
     "build:profile": "cross-env NODE_ENV=production webpack  --profile --json > stats.json --progress  --config webpack.prod.js",
     "build:gh": "cross-env NODE_ENV=production webpack --profile --progress --config webpack.prod.js --output-public-path='/webpack4-multi-page/'",
     "dev": "cross-env NODE_ENV=development webpack-dev-server  --profile --progress  --config webpack.dev.js",
-    "lint": "prettier --write src/**/*.{js,ts,jsx,tsx}",
+    "lint": "prettier --write src/**/*.{js,ts,jsx,tsx} *.{js,ts,jsx,tsx,json}",
     "commit": "commit",
     "prepare": "husky install"
   },
@@ -73,7 +73,7 @@
     "tailwind css"
   ],
   "lint-staged": {
-    "*.{js,ts,jsx,tsx}": [
+    "*.{js,ts,jsx,tsx} src/**/*.{js,ts,jsx,tsx}": [
       "prettier --write"
     ]
   },
