@@ -42,5 +42,8 @@ module.exports = {
         }
       ]
     })
-  ]
+  ],
+  module: {
+    noParse: /jquery|lodash/ // parse ignore module
+  }
 }

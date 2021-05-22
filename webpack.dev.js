@@ -35,7 +35,6 @@ module.exports = merge(common, {
   ],
 
   module: {
-    noParse: /jquery|lodash/, // parse ignore module
     rules: [
       {
         test: /\.css$/, // css-loader

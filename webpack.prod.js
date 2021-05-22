@@ -122,7 +122,7 @@ module.exports = merge(common, {
             loader: 'url-loader',
             options: {
               limit: 8192,
-              name: 'img/[name].[contenthash:8].[ext]'
+              name: 'img/[name].[hash:8].[ext]'
               // publicPath: '../img'
             }
           },
@@ -184,7 +184,7 @@ module.exports = merge(common, {
             loader: 'url-loader',
             options: {
               limit: 8192,
-              name: 'media/[name].[contenthash:8].[ext]'
+              name: 'media/[name].[hash:8].[ext]'
             }
           }
         ]
@@ -197,7 +197,7 @@ module.exports = merge(common, {
             loader: 'url-loader',
             options: {
               limit: 8192,
-              name: 'fonts/[name].[contenthash:8].[ext]'
+              name: 'fonts/[name].[hash:8].[ext]'
               // publicPath: '../fonts'
             }
           }
