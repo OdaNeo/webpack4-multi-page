@@ -73,9 +73,8 @@
     "tailwind css"
   ],
   "lint-staged": {
-    "*.{js,ts,jsx,tsx,json} src/**/*.{js,ts,jsx,tsx}": [
-      "prettier --write",
-      "git add"
+    "src/**/*.{js,ts,jsx,tsx}": [
+      "prettier --write"
     ]
   },
   "author": "OdaNeo",
