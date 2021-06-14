@@ -1,6 +1,6 @@
 {
   "name": "webpack4-multi-page",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "webpack, webpack4, multi-page, tailwind css",
   "private": true,
   "dependencies": {
@@ -64,8 +64,8 @@
     "build:gh": "cross-env NODE_ENV=production webpack --profile --progress --config webpack.prod.js --output-public-path='/webpack4-multi-page/'",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --info=false --profile --progress --config webpack.dev.js",
     "lint": "prettier --write src/**/*.{js,ts,jsx,tsx} *.{js,ts,jsx,tsx,json}",
-    "commit": "git add . && commit",
-    "r": "standard-version --",
+    "c": "git add . && commit",
+    "r": "standard-version",
     "prepare": "husky install"
   },
   "keywords": [
