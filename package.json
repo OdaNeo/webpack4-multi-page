@@ -1,6 +1,6 @@
 {
   "name": "webpack4-multi-page",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "description": "webpack, webpack4, multi-page, tailwind css",
   "private": true,
   "dependencies": {

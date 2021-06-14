@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.2.0](https://github.com/OdaNeo/webpack4-multi-page/compare/v2.1.1...v2.2.0) (2021-06-14)
+
+
+### Features
+
+* **(commit):** remove prompt ([d3ce288](https://github.com/OdaNeo/webpack4-multi-page/commit/d3ce288331844ae99b89c0dcd17313f8027648d1))
+* **cz:** add cz ([04f655d](https://github.com/OdaNeo/webpack4-multi-page/commit/04f655d4169f5dd0c42bc498f29455efbbe67165))
+
 ### [2.1.1](https://github.com/OdaNeo/webpack4-multi-page/compare/v2.1.0...v2.1.1) (2021-06-14)
 
 ## [2.1.0](https://github.com/OdaNeo/webpack4-multi-page/compare/v2.0.1...v2.1.0) (2021-06-14)
