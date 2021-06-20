@@ -9,7 +9,7 @@ module.exports = {
     node: true,
     es6: true
   },
-  extends: ['plugin:prettier/recommended'],
+  extends: ['eslint:recommended', 'plugin:prettier/recommended'],
   rules: {
     'eqeqeq': ['error', 'always', { 'null': 'ignore' }], // 强制===，除非null
     'no-unused-vars': [
