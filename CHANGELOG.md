@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.2.3](https://github.com/OdaNeo/webpack4-multi-page/compare/v2.2.2...v2.2.3) (2021-06-21)
+
+
+### Bug Fixes
+
+* **prettier:** change prettier ([552cbba](https://github.com/OdaNeo/webpack4-multi-page/commit/552cbbae3944b69a5a9b73a951f91d55e81641e0))
+
 ### [2.2.2](https://github.com/OdaNeo/webpack4-multi-page/compare/v2.2.1...v2.2.2) (2021-06-20)
 
 ### Bug Fixes
