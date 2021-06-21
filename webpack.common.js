@@ -1,5 +1,5 @@
 const path = require('path')
-const resolve = dir => path.resolve(__dirname, dir)
+const resolve = (dir) => path.resolve(__dirname, dir)
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const glob = require('glob') // glob 动态生成entry与html模板

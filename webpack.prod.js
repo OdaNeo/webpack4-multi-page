@@ -1,5 +1,5 @@
 const path = require('path')
-const resolve = dir => path.resolve(__dirname, dir)
+const resolve = (dir) => path.resolve(__dirname, dir)
 const { merge } = require('webpack-merge')
 const common = require('./webpack.common')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')

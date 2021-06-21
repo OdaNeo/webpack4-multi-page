@@ -3,7 +3,5 @@
   "printWidth": 120,
   "quoteProps": "preserve",
   "semi": false,
-  "trailingComma": "none",
-  "endOfLine": "auto",
-  "arrowParens": "avoid"
+  "trailingComma": "none"
 }

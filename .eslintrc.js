@@ -11,7 +11,7 @@ module.exports = {
   },
   extends: ['eslint:recommended', 'plugin:prettier/recommended'],
   rules: {
-    'eqeqeq': ['error', 'always', { 'null': 'ignore' }], // 强制===，除非null
+    'eqeqeq': ['error', 'always', { null: 'ignore' }], // 强制===，除非null
     'no-unused-vars': [
       1,
       {
