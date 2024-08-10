@@ -88,6 +88,9 @@
       "path": "cz-conventional-changelog"
     }
   },
+  "engines": {
+    "node": "==12.13.0"
+  },
   "author": "OdaNeo",
   "license": "MIT"
 }

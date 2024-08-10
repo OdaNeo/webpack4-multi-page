@@ -20,8 +20,7 @@ git clone https://github.com/Oda-T/webpack4-multi-page.git
 cd webpack4-multi-page
 
 # 安装依赖
-npm instal
-cnpm instal
+npm ci
 
 # 格式化项目
 npm run lint
