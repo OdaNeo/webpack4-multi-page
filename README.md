@@ -53,7 +53,7 @@ npm run build:gh
 
 ## NOTE:
 
-1. 压缩图片使用 image-webpack-loader 或 image-minimizer-webpack-plugin，请使用 cnpm 安装依赖，或者使用 npm 代理。
+1. 压缩图片使用 image-webpack-loader 或 image-minimizer-webpack-plugin。
 2. 自定义页面添加在 `src/pages` 目录下，入口 html 文件需命名为 `index.html`，入口 js 文件需命名为`index.js`，公共样式以及子页面样式存放在 `src/styles` 目录下。
 3. 默认 `static`目录下的文件不会被压缩，有可能会影响浏览器缓存，请谨慎使用。
 4. webpack 分析(http://webpack.github.io/analyse/) 。
@@ -66,3 +66,4 @@ npm run build:gh
 1. add DefinePlugin
 2. update to webpack 5
 3. add jest test
+4. add TypeScript
