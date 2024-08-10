@@ -2,6 +2,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 .img {
   background-image: url('@/assets/img/hero.jpg');
   @apply w-64 h-64 rounded bg-no-repeat bg-center bg-auto;

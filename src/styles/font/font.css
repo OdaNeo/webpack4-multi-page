@@ -1,4 +1,5 @@
 @tailwind base;
+
 @font-face {
   font-family: 'CascadiaCode';
   src: url('./CascadiaCode.ttf');
