@@ -62,9 +62,3 @@ npm run build:gh
 7. 更多发版指令详见(https://github.com/conventional-changelog/standard-version) 。
 8. 配置参考(https://www.jiangruitao.com/)(https://juejin.cn/post/6844903652956569608)(https://webpack-doc-20200329.vercel.app/)
 
-## TODO:
-
-1. add DefinePlugin
-2. update to webpack 5
-3. add jest test
-4. add TypeScript
