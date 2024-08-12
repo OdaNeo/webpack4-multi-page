@@ -8,7 +8,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin') // 从js中提�
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin') // cssnano
 const TerserJSPlugin = require('terser-webpack-plugin') // 压缩js代码
 
-// const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin') // image minimizer
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin') // image minimizer
 // const CompressionPlugin = require('compression-webpack-plugin') // gzip
 // const PurgecssPlugin = require('purgecss-webpack-plugin') // css tree shaking : already included by tailwind
 
@@ -16,59 +16,30 @@ module.exports = merge(common, {
   mode: 'production', //
   output: {
     publicPath: '/',
-    filename: 'js/[name].[contenthash:8].bundle.js', // output path, [name]_[-hash] from prod environment
-    chunkFilename: 'js/[name].[contenthash:8].chunk.js', // chunkFilename for no-enter chunk-file
-    path: resolve('dist') // default
+    path: resolve('dist'), // default
+    filename: 'js/[name].[contenthash:8].js', // output path, [name]_[-hash] from prod environment
+    chunkFilename: 'js/[name].[contenthash:8].chunk.js' // chunkFilename for no-enter chunk-file
   },
   devtool: 'hidden-source-map',
   optimization: {
+    minimize: true,
     minimizer: [
       new TerserJSPlugin({
-        cache: true, // cache
-        terserOptions: {
-          compress: {
-            drop_console: true // remove console
-          },
-          output: {
-            comments: false // remove js-comment
-          }
-        }
+        cache: true
       }),
       new OptimizeCssAssetsPlugin({
         cssProcessorPluginOptions: {
           preset: ['default', { discardComments: { removeAll: true } }] // cssnano
         }
       })
-    ],
-    runtimeChunk: true, // html.js cache
-    splitChunks: {
-      chunks: 'all', // 异步模块和入口模块
-      minSize: 30000,
-      minChunks: 1, // 最少有多少chunks共用的模块
-      maxAsyncRequests: 5,
-      maxInitialRequests: 3,
-      cacheGroups: {
-        vendors: {
-          name: 'vendors',
-          test: /[\\/]node_modules[\\/]/,
-          minChunks: 1,
-          priority: 20 // 权重
-        },
-        utils: {
-          name: 'utils',
-          test: /\\src\\utils\\/,
-          minChunks: 1,
-          priority: 10,
-          reuseExistingChunk: true
-        }
-      }
-    }
+    ]
   },
   plugins: [
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
       filename: 'css/[name].[contenthash:8].css', // prod contenthash
-      chunkFilename: 'css/[name].[contenthash:8].chunk.css'
+      chunkFilename: 'css/[name].[contenthash:8].chunk.css',
+      ignoreOrder: false // Enable to remove warnings about conflicting order
     }),
     new ScriptExtHtmlWebpackPlugin({
       inline: /runtime~.*\.js/ // inline runtimeChunk to html
@@ -89,7 +60,10 @@ module.exports = merge(common, {
         include: /\\src\\/,
         use: [
           {
-            loader: MiniCssExtractPlugin.loader
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              esModule: true // tree shaking
+            }
           },
           {
             loader: 'css-loader',
@@ -150,30 +124,30 @@ module.exports = merge(common, {
                 plugins: [{ removeViewBox: false }]
               }
             }
+          },
+          {
+            loader: ImageMinimizerPlugin.loader,
+            options: {
+              severityError: 'warning', // Ignore errors on corrupted images
+              minimizerOptions: {
+                plugins: [
+                  ['gifsicle', { interlaced: true }],
+                  ['mozjpeg', { progressive: true, quality: 50 }],
+                  ['pngquant', { quality: [0.65, 0.75], speed: 4 }],
+                  [
+                    'svgo',
+                    {
+                      plugins: [
+                        {
+                          removeViewBox: false
+                        }
+                      ]
+                    }
+                  ]
+                ]
+              }
+            }
           }
-          // {
-          //   loader: ImageMinimizerPlugin.loader,
-          //   options: {
-          //     severityError: 'warning', // Ignore errors on corrupted images
-          //     minimizerOptions: {
-          //       plugins: [
-          //         ['gifsicle', { interlaced: true }],
-          //         ['mozjpeg', { progressive: true, quality: 50 }],
-          //         ['pngquant', { quality: [0.65, 0.75], speed: 4 }],
-          //         [
-          //           'svgo',
-          //           {
-          //             plugins: [
-          //               {
-          //                 removeViewBox: false
-          //               }
-          //             ]
-          //           }
-          //         ]
-          //       ]
-          //     }
-          //   }
-          // }
         ]
       },
       {
@@ -202,12 +176,6 @@ module.exports = merge(common, {
             }
           }
         ]
-      },
-      {
-        enforce: 'pre', // 保证 eslint 优先 babel 执行
-        test: /\.js$/,
-        exclude: [/node_modules/, /dist/],
-        use: 'eslint-loader'
       },
       {
         test: /\.js$/,

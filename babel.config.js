@@ -3,7 +3,7 @@ module.exports = {
     [
       '@babel/preset-env',
       {
-        modules: false,
+        modules: false, // 不输出 commonjs，tree shaking有效化
         useBuiltIns: 'usage', // 自动引入项目使用的polyfill
         corejs: 3
       }

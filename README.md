@@ -1,6 +1,6 @@
 # webpack4-multi-page
 
-## webpack4.44, js, glob, js/css code split, Tailwind css, babel, polyfill, gzip
+## webpack4.41, js, glob, js/css code split, Tailwind css, babel, polyfill, gzip
 
 ## no Vue
 
@@ -60,6 +60,7 @@ npm run build:gh
 5. 有关代码风格，参照 prettier(https://prettier.io/docs/en/options.html) ，自行配置。
 6. 代码提交使用了 commitlint 规范(https://github.com/conventional-changelog/commitlint/tree/master/@commitlint/config-conventional#type-enum) 。
 7. 更多发版指令详见(https://github.com/conventional-changelog/standard-version) 。
+8. 配置参考(https://www.jiangruitao.com/)(https://juejin.cn/post/6844903652956569608)(https://webpack-doc-20200329.vercel.app/)
 
 ## TODO:
 

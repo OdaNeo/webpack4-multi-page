@@ -9,8 +9,13 @@ module.exports = {
     node: true,
     es6: true
   },
-  extends: ['eslint:recommended', 'plugin:prettier/recommended'],
+  //eslint-plugin-import 可以静态检出引入的包是否存在，需要搭配eslint-import-resolver-webpack，赋予@含义
+  extends: ['eslint:recommended', 'plugin:import/recommended', 'plugin:prettier/recommended'],
   rules: {
+    'import/named': 'error',
+    'import/default': 'error',
+    'import/namespace': 'error',
+    'import/no-unresolved': ['error', { commonjs: true, amd: true }],
     'eqeqeq': ['error', 'always', { null: 'ignore' }], // 强制===，除非null
     'no-unused-vars': [
       1,
@@ -19,5 +24,12 @@ module.exports = {
         args: 'none'
       }
     ]
+  },
+  settings: {
+    'import/resolver': {
+      webpack: {
+        config: './webpack.common.js'
+      }
+    }
   }
 }

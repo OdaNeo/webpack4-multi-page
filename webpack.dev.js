@@ -4,16 +4,20 @@ const { merge } = require('webpack-merge')
 const common = require('./webpack.common')
 const webpack = require('webpack')
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin') // 从js中提取css
 
 module.exports = merge(common, {
   mode: 'development',
   output: {
+    publicPath: '/',
     path: resolve('dist'), // default
-    publicPath: '/'
+    filename: 'js/[name].js',
+    chunkFilename: 'js/[name].chunk.js' // chunkFilename for no-enter chunk-file
   },
   devtool: 'eval-cheap-module-source-map',
   devServer: {
-    contentBase: './dist',
+    clientLogLevel: 'error', // 浏览器控制台输出
+    contentBase: path.join(__dirname, 'dist'),
     port: 5050,
     open: true,
     hot: true,
@@ -30,6 +34,11 @@ module.exports = merge(common, {
   },
   stats: 'errors-only', // friendly-errors-webpack-plugin
   plugins: [
+    new MiniCssExtractPlugin({
+      filename: 'css/[name].css',
+      chunkFilename: 'css/[name].chunk.css',
+      ignoreOrder: false // Enable to remove warnings about conflicting order
+    }),
     new webpack.HotModuleReplacementPlugin(), // HMR
     new FriendlyErrorsWebpackPlugin()
   ],
@@ -40,7 +49,12 @@ module.exports = merge(common, {
         test: /\.css$/, // css-loader
         include: /\\src\\/,
         use: [
-          'style-loader',
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              hmr: true
+            }
+          },
           {
             loader: 'css-loader',
             options: {
@@ -72,7 +86,7 @@ module.exports = merge(common, {
             loader: 'url-loader',
             options: {
               limit: 8192,
-              name: 'img/[name].[hash:8].[ext]'
+              name: 'img/[name].[ext]'
             }
           }
         ]
@@ -85,7 +99,7 @@ module.exports = merge(common, {
             loader: 'url-loader',
             options: {
               limit: 8192,
-              name: 'media/[name].[hash:8].[ext]'
+              name: 'media/[name].[ext]'
             }
           }
         ]
@@ -98,7 +112,7 @@ module.exports = merge(common, {
             loader: 'url-loader',
             options: {
               limit: 8192,
-              name: 'fonts/[name].[hash:8].[ext]'
+              name: 'fonts/[name].[ext]'
             }
           }
         ]
@@ -106,7 +120,15 @@ module.exports = merge(common, {
       {
         test: /\.js$/,
         include: /\\src\\/,
-        use: 'eslint-loader'
+        use: [
+          'babel-loader',
+          {
+            loader: 'eslint-loader', // 影响开发环境下 eslint 在终端的输出
+            options: {
+              enforce: 'pre' // 确保 ESLint 在 babel-loader 之前运行
+            }
+          }
+        ]
       }
     ]
   }

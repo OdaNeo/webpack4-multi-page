@@ -16,7 +16,7 @@ for (const i of pagesName) {
       filename: `${_name}.html`,
       template: resolve(`src/pages/${_name}/index.html`),
       chunks: [`${_name}`],
-      favicon: 'static/favicon.ico'
+      favicon: 'favicon.ico'
     })
   )
 }
@@ -29,21 +29,29 @@ module.exports = {
     }
   },
   performance: false,
+  optimization: {
+    runtimeChunk: true, // html.js cache
+    splitChunks: {
+      chunks: 'all', // 异步模块和入口模块
+      minSize: 30000
+    }
+  },
   plugins: [
     ...htmlFile,
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: 'static', // static目录下静态资源不打包
+          from: 'static', // static目录下静态资源不打包, 直接复制
           to: 'static',
           globOptions: {
-            ignore: ['.DS_Store', 'index.html']
-          }
+            ignore: ['**/.DS_Store', '**/index.html', '**/favicon.ico']
+          },
+          noErrorOnMissing: true // static如果为空，会报错
         }
       ]
     })
   ],
   module: {
-    noParse: /jquery|lodash/ // parse ignore module
+    noParse: /jquery/ // parse ignore module, 使用esModule引入的包不可以加入
   }
 }
