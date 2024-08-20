@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#container {
+    width: 50%;
+    margin: 0 auto;
+    height: 200px;
+    line-height: 200px;
+    text-align: center;
+    color: #fff;
+    background-color: #444;
+    font-size: 30px;
+}
