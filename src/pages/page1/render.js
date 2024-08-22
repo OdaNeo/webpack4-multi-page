@@ -1,5 +1,6 @@
 // 空fiber
 let nextUnitOfWork = null
+let wipRoot = null
 
 /* 
   <div>
@@ -15,9 +16,6 @@ function performUnitOfWork(fiber) {
   //执行任务单元 虚拟dom转化成真实dom
   if (!fiber.dom) {
     fiber.dom = createDom(fiber)
-  }
-  if (fiber.parent) {
-    fiber.parent.dom.appendChild(fiber.dom)
   }
   //为当前fiber创建子节点fiber
   //parent child sibling
@@ -52,6 +50,22 @@ function performUnitOfWork(fiber) {
   }
 }
 
+function commitWork(fiber) {
+  if (!fiber) {
+    return
+  }
+  const domParent = fiber.parent.dom
+  domParent.appendChild(fiber.dom)
+  commitWork(fiber.child)
+  commitWork(fiber.sibling)
+}
+
+function commitRoot() {
+  // 渲染真实Dom
+  commitWork(wipRoot.child)
+  wipRoot = null
+}
+
 function workLoop(deadLine) {
   let shouldYield = true // 是否有空余时间
 
@@ -59,7 +73,10 @@ function workLoop(deadLine) {
     nextUnitOfWork = performUnitOfWork(nextUnitOfWork)
     shouldYield = deadLine.timeRemaining() > 1
   }
-
+  //全部渲染完成，一次性提交fiberTree
+  if (!nextUnitOfWork && wipRoot) {
+    commitRoot()
+  }
   requestIdleCallback(workLoop)
 }
 
@@ -77,12 +94,13 @@ function createDom(element) {
 
 function render(element, container) {
   // 创建根节点
-  nextUnitOfWork = {
+  wipRoot = {
     dom: container,
     props: {
       children: [element]
     }
   }
+  nextUnitOfWork = wipRoot
 }
 
 export { render }
