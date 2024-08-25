@@ -7,6 +7,7 @@ function getUserAction(e) {
   container.innerHTML = count++
 }
 
+// eslint-disable-next-line no-unused-vars
 function debounce(func, wait) {
   let timeout
   return function () {
