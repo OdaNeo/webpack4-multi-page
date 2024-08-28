@@ -3,6 +3,8 @@ let nextUnitOfWork = null
 let wipRoot = null
 let currentRoot = null // 上一次提交的fiber
 let deletions = []
+let wipFiber = []
+let hooksIndex = 0
 
 /* 
   <div>
@@ -64,7 +66,45 @@ function reconcileChildren(wipFiber, elements) {
   }
 }
 
-function performUnitOfWork(fiber) {
+function useState(initial) {
+  const oldHook = wipFiber?.alternate?.hooks?.[hooksIndex]
+
+  const hook = {
+    state: oldHook ? oldHook.state : initial,
+    queue: []
+  }
+  const actions = oldHook ? oldHook.queue : []
+
+  actions.forEach((action) => {
+    hook.state = action
+  })
+
+  const setState = (action) => {
+    hook.queue.push(action)
+    wipRoot = {
+      dom: currentRoot.dom,
+      props: currentRoot.props,
+      alternate: currentRoot
+    }
+    nextUnitOfWork = wipRoot
+    deletions = []
+  }
+
+  wipFiber.hook.push(hook)
+  hooksIndex++
+
+  return [hook.state, setState]
+}
+
+function updateFunctionComponent(fiber) {
+  wipFiber = fiber
+  wipFiber.hooks = []
+  hooksIndex = 0
+  const children = [fiber.type(fiber.props)]
+  reconcileChildren(fiber, children)
+}
+
+function updateHostComponent(fiber) {
   //执行任务单元 虚拟dom转化成真实dom
   if (!fiber.dom) {
     fiber.dom = createDom(fiber)
@@ -74,6 +114,15 @@ function performUnitOfWork(fiber) {
 
   const elements = fiber?.props?.children
   reconcileChildren(fiber, elements)
+}
+
+function performUnitOfWork(fiber) {
+  const isFunctionComponent = fiber.type instanceof Function
+  if (isFunctionComponent) {
+    updateFunctionComponent(fiber)
+  } else {
+    updateHostComponent(fiber)
+  }
 
   //return下一个单元
   if (fiber.child) {
@@ -125,11 +174,27 @@ function updateDom(dom, prevProps, nextProps) {
     })
 }
 
+function commitDeletion(fiber, domParent) {
+  if (fiber.dom) {
+    domParent.removeChild(fiber.dom)
+  } else {
+    commitDeletion(fiber.child, domParent)
+  }
+}
+
 function commitWork(fiber) {
   if (!fiber) {
     return
   }
-  const domParent = fiber.parent.dom
+
+  // 跳过Function组件，因为其没有Dom
+  // const domParent = fiber.parent.dom
+  let domParentFiber = fiber.parent
+  while (!domParentFiber.dom) {
+    domParentFiber = domParentFiber.parent
+  }
+  const domParent = domParentFiber.dom
+
   switch (fiber.effectTag) {
     case 'PLACEMENT':
       !!fiber.dom && domParent.appendChild(fiber.dom)
@@ -138,7 +203,8 @@ function commitWork(fiber) {
       !!fiber.dom && updateDom(fiber.dom, fiber.alternate, fiber.props)
       break
     case 'DELETION':
-      !!fiber.dom && domParent.removeChild(fiber.dom)
+      // !!fiber.dom && domParent.removeChild(fiber.dom)
+      commitDeletion(fiber, domParent)
       break
     default:
       break
@@ -195,4 +261,4 @@ function render(element, container) {
   deletions = []
 }
 
-export { render }
+export { render, useState }
